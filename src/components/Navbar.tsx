@@ -1,14 +1,16 @@
+'use client'
+// import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-
+import { signOut, useSession } from "next-auth/react"
 const Navbar: React.FC = () => {
-    // const { data: session, status } = useSession()
-    // console.log(session, status)
-    const uri: string | undefined = process.env.MONGODB_URI;
-    console.log(uri)
-    const status: string | boolean = false;
-    
+    const { data: session, status } = useSession()
+    console.log(session, status)
+    // const uri: string | undefined = process.env.MONGODB_URI;
+    // console.log(uri)
+    // const status: string | boolean = false;
+    // const status = false
     const navLinks = (
         <>
             <li><Link href={'/'}>Home</Link></li>
@@ -47,7 +49,7 @@ const Navbar: React.FC = () => {
                 {
                     status === 'authenticated' ? (
                         <Link href={'/login'}>
-                            <button className='btn'>Logout</button>
+                            <button onClick={() => signOut()} className='btn'>Logout</button>
                         </Link>
                     ) : (
                         <>

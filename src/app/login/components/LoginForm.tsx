@@ -15,17 +15,18 @@ const LoginForm: React.FC = () => {
         const password = (form.elements.namedItem('password') as HTMLInputElement).value;
         
         toast('Submitting ...');
-        
+        console.log({email, password})
         try {
             const result = await signIn('credentials', { email, password, redirect: false });
             if (result?.ok) {
                 router.push('/');
                 toast.success('Login Success');
             } else {
-                toast.error('Login Failed');
+                toast.error('Invalid email or password.');
             }
         } catch (error) {
             toast.error('Login Failed');
+            
         }
     };
 

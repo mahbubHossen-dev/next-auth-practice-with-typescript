@@ -1,6 +1,6 @@
 'use server';
 import bcrypt from 'bcrypt';
-import dbConnect from '@/DB/dbConnect';
+import dbConnect, { collectionNamesObj } from '@/DB/dbConnect';
 import { Collection, ObjectId } from 'mongodb';
 
 // ✅ ১. `payload` এর সঠিক টাইপ নির্ধারণ করা হলো
@@ -21,7 +21,7 @@ const registerUser = async (payload: RegisterPayload) => {
     console.log(payload);
 
     // ✅ ৪. `dbConnect('users')` থেকে আসা collection টাইপ নির্ধারণ করা হলো
-    const userCollection: Collection<UserDocument> = dbConnect('users');
+    const userCollection: Collection<UserDocument> = dbConnect(collectionNamesObj.userCollection);
 
     const email = payload.email;
 
@@ -41,14 +41,12 @@ const registerUser = async (payload: RegisterPayload) => {
                 insertedId: result.insertedId.toString(), // ObjectId -> String
             };
         } catch (error) {
-            console.error("Registration Error:", error);
+            console.error("Registration Failed:", error);
             return null
         }
 
     }
     return 'Already Have an Account';
-
-    
 };
 
 export default registerUser;
